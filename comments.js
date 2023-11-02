@@ -1,17 +1,27 @@
-// Importa los módulos necesarios
+// Create web server
 const express = require('express');
-const router = express.Router();
-const commentController = require('../controllers/commentController'); // Asegúrate de que el nombre del controlador sea correcto
+const bodyParser = require('body-parser');
+const cors = require('cors');
 
-// Maneja las solicitudes GET para listar comentarios
-router.get('/', commentController.comment_list);
+const app = express();
 
-// Maneja las solicitudes GET y POST para crear comentarios
-router.get('/create', commentController.comment_create_get);
-router.post('/create', commentController.comment_create_post);
+// Middleware
+app.use(cors());
+app.use(bodyParser.json());
 
-// Maneja las solicitudes GET para eliminar comentarios por su ID
-router.get('/:id/delete', commentController.comment_delete);
+// Data
+const comments = [
+  { id: 1, author: 'Bob', text: 'Awesome!' },
+  { id: 2, author: 'Alice', text: 'Cool!' },
+];
 
-// Exporta el router
-module.exports = router;
+// Routes
+app.get('/comments', (req, res) => {
+  res.send(comments);
+});
+
+app.post('/comments', (req, res) => {
+  const newComment = {
+    id: comments.length + 1
+  }
+});
